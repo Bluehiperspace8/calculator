@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> Calculator </title>
+    <meta charset='UTF-8'>
+    <link rel='stylesheet' href='reset.css'>
+    <link rel='stylesheet' href='style.css'>
+</head>
+
+<body>
+    <div id='header'>
+        <p class='title'> ~ Bluehiperspace8's JavaScript Calculator ~ </p>
+    </div>
+    <div id='content'>
+        
+    </div>
+<script>
+    const add = (first, second) => first + second;
+    const substract = (first, second) => first - second;
+    const multiply = (first, second) => first * second;
+    const divide = (first, second) => first / second;
+    function operate(operator, first, second) {
+        let outcome;
+        switch(operator) {
+            case 'add':
+                return outcome = add(first, second);
+            case 'substract':
+                return outcome = substract(first, second);
+            case 'multiply':
+                return outcome = multiply(first, second);
+            case 'divide':
+                return outcome = divide(first, second);
+        }
+    }
+</script>
+</body>
+
+</html>
