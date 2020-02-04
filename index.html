@@ -14,7 +14,8 @@
     </div>
     <div id='calculator-body'>
         <div class='calculator-display'>
-
+            <p class='operations'> 1 </p>
+            <p class='result' ></p>
         </div>
         <div class='calculator-buttons'>
             <button class='control'> AC </button>
@@ -56,6 +57,18 @@
                 return outcome = divide(first, second);
         }
     }
+    let operationText = document.getElementsByClassName('operations')
+    let resultText = document.getElementsByClassName('result')
+    const numberButtons = document.querySelectorAll('button');
+    numberButtons.forEach((button) => { 
+        button.addEventListener('click', (e) => {
+            console.log(e);
+            console.log(e.target.innerHTML)
+            console.log(operationText.innerHTML)
+            operationText.innerHTML += e.target.innerHTML;
+        })
+    });
+
 </script>
 </body>
 

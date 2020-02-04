@@ -19,32 +19,46 @@ p {
 }
 
 #calculator-body {
-    width: 35%;
+    width: 30%;
     margin: 50px auto;
     height: 450px;
     border: 1px solid white;
 }
 
 .calculator-display {
-    display: flex;
-    justify-content: center;
+    display: block;
     width: 100%;
     height: 25%;
     margin: 0 auto;
-    border: 1px solid green
+    /*border: 1px solid green*/
+}
+
+.operations {
+    text-align: right;
+    padding-top: 10px;
+    font-size: 1.5em;
+    padding-right: 10px;
+}
+
+.result {
+    text-align: right;
+    padding-top: 45px;
+    font-size: 1.5em;
+    padding-right: 10px;
 }
 
 .calculator-buttons {
     display: flex;
     flex-wrap: wrap;
-    width: 99.5%;
-    height: 74%;
-    border: 1px solid red
+    width: 100%;
+    height: 75%;
 }
 
 button {
     width: 25%;
     height: 20%;
+    font-size: 20px;
+    border: 1px solid black
 }
 
 .double {
@@ -59,6 +73,10 @@ button {
 .number {
     background-color: #424242;
     color: #dcdcdc
+}
+
+.number:active {
+    background-color: black;
 }
 
 .operator {
