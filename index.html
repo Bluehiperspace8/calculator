@@ -21,25 +21,26 @@
             <button id='reset' class='control'>AC</button>
             <button id='backspace' class='control'> DEL </button>
             <button id='sign' class='control'> + / - </button>
-            <button class='literal operator'> ÷ </button>
+            <button id='divide' class='literal operator'> ÷ </button>
             <button class='literal number'>7</button>
             <button class='literal number'>8</button>
             <button class='literal number'>9</button>
-            <button class='literal operator'> x </button>
+            <button id='times' class='literal operator'> x </button>
             <button class='literal number'>4</button>
             <button class='literal number'>5</button>
             <button class='literal number'>6</button>
-            <button class='literal operator'> - </button>
+            <button id='minus' class='literal operator'> - </button>
             <button class='literal number'>1</button>
             <button class='literal number'>2</button>
             <button class='literal number'>3</button>
-            <button class='literal operator'> + </button>
+            <button id='plus' class='literal operator'> + </button>
             <button class='literal number double'>0</button>
             <button class='literal number'>.</button>
-            <button class='operator'> = </button>
+            <button id='equal' class='operator'> = </button>
         </div>
     </div>
 <script>
+    let operator;
     const add = (first, second) => first + second;
     const substract = (first, second) => first - second;
     const multiply = (first, second) => first * second;
@@ -70,6 +71,7 @@
     const resetButton = document.getElementById('reset');
     resetButton.addEventListener('click', () => {
         operationArea.textContent = undefined;
+        resultArea.textContent = undefined;
     })
 
     const backButton = document.getElementById('backspace');
@@ -79,6 +81,68 @@
         operationArea.textContent = text;
     })
 
+    const plusButton = document.getElementById('plus');
+    plusButton.addEventListener('click', () => {
+        operator = 'add';
+    })
+
+    const minusButton = document.getElementById('minus');
+    minusButton.addEventListener('click', () => {
+        operator = 'substract';
+    })
+
+    const timesButton = document.getElementById('times');
+    timesButton.addEventListener('click', () => {
+        operator = 'multiply';
+    })
+
+    const divideButton = document.getElementById('divide');
+    divideButton.addEventListener('click', () => {
+        operator = 'divide';
+    })
+
+    const equalButton = document.getElementById('equal');
+    equalButton.addEventListener('click', () => {
+        let text;
+        let values;
+        let first;
+        let second;
+        let outcome;
+        switch(operator) {
+            case 'add':
+                text = operationArea.textContent;
+                values = text.split(' + ');
+                first = Number(values[0]);
+                second = Number(values[1]);
+                outcome = add(first, second);
+                resultArea.textContent = outcome;
+                break
+            case 'substract':
+                text = operationArea.textContent;
+                values = text.split(' - ');
+                first = Number(values[0]);
+                second = Number(values[1]);
+                outcome = substract(first, second);
+                resultArea.textContent = outcome;
+                break
+            case 'multiply':
+                text = operationArea.textContent;
+                values = text.split(' x ');
+                first = Number(values[0]);
+                second = Number(values[1]);
+                outcome = multiply(first, second);
+                resultArea.textContent = outcome;
+                break
+            case 'divide':
+                text = operationArea.textContent;
+                values = text.split(' ÷ ');
+                first = Number(values[0]);
+                second = Number(values[1]);
+                outcome = divide(first, second);
+                resultArea.textContent = outcome;
+                break
+        }
+    })
 
 </script>
 </body>

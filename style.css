@@ -30,7 +30,6 @@ p {
     width: 100%;
     height: 25%;
     margin: 0 auto;
-    /*border: 1px solid green*/
 }
 
 #operations {
@@ -38,6 +37,7 @@ p {
     padding-top: 10px;
     font-size: 1.5em;
     padding-right: 10px;
+    height: 24px;
 }
 
 #result {
@@ -45,6 +45,7 @@ p {
     padding-top: 45px;
     font-size: 1.5em;
     padding-right: 10px;
+    height: 24px;
 }
 
 .calculator-buttons {
