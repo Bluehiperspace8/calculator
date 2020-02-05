@@ -33,14 +33,14 @@ p {
     /*border: 1px solid green*/
 }
 
-.operations {
+#operations {
     text-align: right;
     padding-top: 10px;
     font-size: 1.5em;
     padding-right: 10px;
 }
 
-.result {
+#result {
     text-align: right;
     padding-top: 45px;
     font-size: 1.5em;
@@ -65,14 +65,14 @@ button {
     width: 50%;
 }
 
+.literal {
+    background-color: #424242;
+    color: #dcdcdc
+}
+
 .control {
     background-color: #d6d6d6;
     color: black
-}
-
-.number {
-    background-color: #424242;
-    color: #dcdcdc
 }
 
 .number:active {

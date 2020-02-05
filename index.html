@@ -14,28 +14,28 @@
     </div>
     <div id='calculator-body'>
         <div class='calculator-display'>
-            <p class='operations'> 1 </p>
-            <p class='result' ></p>
+            <p id='operations'></p>
+            <p id='result' ></p>
         </div>
         <div class='calculator-buttons'>
-            <button class='control'> AC </button>
-            <button class='control'> DEL </button>
-            <button class='control'> + / - </button>
-            <button class='operator'> ÷ </button>
-            <button class='number'> 7 </button>
-            <button class='number'> 8 </button>
-            <button class='number'> 9 </button>
-            <button class='operator'> x </button>
-            <button class='number'> 4 </button>
-            <button class='number'> 5 </button>
-            <button class='number'> 6 </button>
-            <button class='operator'> - </button>
-            <button class='number'> 1 </button>
-            <button class='number'> 2 </button>
-            <button class='number'> 3 </button>
-            <button class='operator'> + </button>
-            <button class='number double'> 0 </button>
-            <button class='number'> . </button>
+            <button id='reset' class='control'>AC</button>
+            <button id='backspace' class='control'> DEL </button>
+            <button id='sign' class='control'> + / - </button>
+            <button class='literal operator'> ÷ </button>
+            <button class='literal number'>7</button>
+            <button class='literal number'>8</button>
+            <button class='literal number'>9</button>
+            <button class='literal operator'> x </button>
+            <button class='literal number'>4</button>
+            <button class='literal number'>5</button>
+            <button class='literal number'>6</button>
+            <button class='literal operator'> - </button>
+            <button class='literal number'>1</button>
+            <button class='literal number'>2</button>
+            <button class='literal number'>3</button>
+            <button class='literal operator'> + </button>
+            <button class='literal number double'>0</button>
+            <button class='literal number'>.</button>
             <button class='operator'> = </button>
         </div>
     </div>
@@ -57,17 +57,28 @@
                 return outcome = divide(first, second);
         }
     }
-    let operationText = document.getElementsByClassName('operations')
-    let resultText = document.getElementsByClassName('result')
-    const numberButtons = document.querySelectorAll('button');
-    numberButtons.forEach((button) => { 
-        button.addEventListener('click', (e) => {
-            console.log(e);
-            console.log(e.target.innerHTML)
-            console.log(operationText.innerHTML)
-            operationText.innerHTML += e.target.innerHTML;
+    const operationArea = document.getElementById('operations');
+    const resultArea = document.getElementById('result');
+
+    const numberButtons = document.getElementsByClassName('literal');
+    for(let i = 0; i < numberButtons.length; i++) {
+        numberButtons[i].addEventListener('click', (e) => {
+            operationArea.textContent += e.target.textContent;
         })
-    });
+    }
+
+    const resetButton = document.getElementById('reset');
+    resetButton.addEventListener('click', () => {
+        operationArea.textContent = undefined;
+    })
+
+    const backButton = document.getElementById('backspace');
+    backButton.addEventListener('click', () => {
+        let text = operationArea.textContent;
+        text = text.substring(0, text.length - 1);
+        operationArea.textContent = text;
+    })
+
 
 </script>
 </body>
