@@ -40,7 +40,7 @@
         </div>
     </div>
 <script>
-    let operator;
+    //let operator;
     const add = (first, second) => first + second;
     const substract = (first, second) => first - second;
     const multiply = (first, second) => first * second;
@@ -48,13 +48,13 @@
     function operate(operator, first, second) {
         let outcome;
         switch(operator) {
-            case 'add':
+            case '+':
                 return outcome = add(first, second);
-            case 'substract':
+            case '-':
                 return outcome = substract(first, second);
-            case 'multiply':
+            case 'x':
                 return outcome = multiply(first, second);
-            case 'divide':
+            case '÷':
                 return outcome = divide(first, second);
         }
     }
@@ -103,7 +103,7 @@
 
     const equalButton = document.getElementById('equal');
     equalButton.addEventListener('click', () => {
-        let text;
+        /*let text;
         let values;
         let first;
         let second;
@@ -142,8 +142,50 @@
                 resultArea.textContent = outcome;
                 break
         }
-    })
+    })*/
 
+    let first;
+    let second;
+    let operator;
+    let outcome;
+    let start;
+    let finish;
+    let operation = operationArea.textContent;
+    let operationArray = operation.split('');
+    console.log(operationArray);
+    for(let i = 0; i < operationArray.length; i++) {
+        if(operationArray[i] == 'x' || operationArray[i] == '÷') {
+            for(let k = i - 2; k > -1; k--) {
+                if(operationArray[k] == ' ') {
+                    first = Number(operationArray.slice(k + 1, i - 1).join(''));
+                    start = k + 1;
+                    break
+                }
+                if(k == 0) {
+                    first = Number(operationArray.slice(k, i - 1).join(''));
+                    start = 0;
+                    break
+                }
+            }
+            for(k = i + 2; k < operationArray.length; k++) {
+                if(operationArray == ' ') {
+                    second = Number(operationArray.slice(i + 2, k).join(''));
+                    finish = k - 1;
+                    break
+                }
+                if(k == operationArray.length - 1) {
+                    second = Number(operationArray.slice(i + 2).join(''));
+                    finish = k;
+                    break
+                }
+            }
+            operator = operationArray[i];
+            outcome = operate(operator, first, second);
+            operationArray.splice(start, finish - start + 1, outcome);
+            console.log(operationArray)
+        }
+    }
+    });
 </script>
 </body>
 
