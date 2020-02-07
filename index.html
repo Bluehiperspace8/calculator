@@ -57,6 +57,7 @@
                 return outcome = divide(first, second);
         }
     }
+    let previousAnswer;
 
     function countDecimals(value) {
         if(Math.floor(value) === value) return 0;
@@ -73,10 +74,19 @@
         })
     }
 
+    const plusButton = document.getElementById('plus');
+    plusButton.addEventListener('click', () => {
+        if(previousAnswer) {
+            operationArea.textContent = previousAnswer;
+            resultArea.textContent = undefined;
+        }
+    })
+
     const resetButton = document.getElementById('reset');
     resetButton.addEventListener('click', () => {
         operationArea.textContent = undefined;
         resultArea.textContent = undefined;
+        previousAnswer = undefined;
     })
 
     const backButton = document.getElementById('backspace');
@@ -110,7 +120,12 @@
                         break
                     }
                 }
-                for(j = i + 2; j < operationArray.length; j++) {
+                for(j = i + 2; j < operationArray.length + 1; j++) {
+                    if(j > operationArray.length - 1) {
+                        resultArea.textContent = 'Syntax Error'
+                        return;
+                    }
+
                     if(operationArray[j] == ' ') {
                         second = Number(operationArray.slice(i + 2, j).join(''));
                         finish = j - 1;
@@ -123,6 +138,10 @@
                     }
                 }
                 operator = operationArray[i];
+                if(operator == '÷' && second == 0) {
+                    resultArea.textContent = 'Math Error';
+                    return;
+                }
                 outcome = operate(operator, first, second);
                 operationArray.splice(start, finish - start + 1, outcome);
                 i = 0;
@@ -142,7 +161,11 @@
                                 break
                             }
                         }
-                        for(l = k + 2; l < operationArray.length; l++) {
+                        for(l = k + 2; l < operationArray.length + 1; l++) {
+                            if(l > operationArray.length - 1) {
+                                resultArea.textContent = 'Syntax Error';
+                                return;
+                            }
                             if(operationArray[l] == ' ') {
                                 second = Number(operationArray.slice(k + 2, l).join(''));
                                 finish = l - 1;
@@ -163,7 +186,7 @@
             }
         }
         let result = operationArray.join('');
-
+        previousAnswer = result;
         resultArea.textContent = result;
         });
 </script>
