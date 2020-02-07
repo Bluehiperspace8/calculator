@@ -40,7 +40,6 @@
         </div>
     </div>
 <script>
-    //let operator;
     const add = (first, second) => first + second;
     const substract = (first, second) => first - second;
     const multiply = (first, second) => first * second;
@@ -58,6 +57,12 @@
                 return outcome = divide(first, second);
         }
     }
+
+    function countDecimals(value) {
+        if(Math.floor(value) === value) return 0;
+        return value.toString().split(".")[1].length || 0; 
+    }
+    
     const operationArea = document.getElementById('operations');
     const resultArea = document.getElementById('result');
 
@@ -81,111 +86,86 @@
         operationArea.textContent = text;
     })
 
-    const plusButton = document.getElementById('plus');
-    plusButton.addEventListener('click', () => {
-        operator = 'add';
-    })
-
-    const minusButton = document.getElementById('minus');
-    minusButton.addEventListener('click', () => {
-        operator = 'substract';
-    })
-
-    const timesButton = document.getElementById('times');
-    timesButton.addEventListener('click', () => {
-        operator = 'multiply';
-    })
-
-    const divideButton = document.getElementById('divide');
-    divideButton.addEventListener('click', () => {
-        operator = 'divide';
-    })
-
     const equalButton = document.getElementById('equal');
     equalButton.addEventListener('click', () => {
-        /*let text;
-        let values;
         let first;
         let second;
+        let operator;
         let outcome;
-        switch(operator) {
-            case 'add':
-                text = operationArea.textContent;
-                values = text.split(' + ');
-                first = Number(values[0]);
-                second = Number(values[1]);
-                outcome = add(first, second);
-                resultArea.textContent = outcome;
-                break
-            case 'substract':
-                text = operationArea.textContent;
-                values = text.split(' - ');
-                first = Number(values[0]);
-                second = Number(values[1]);
-                outcome = substract(first, second);
-                resultArea.textContent = outcome;
-                break
-            case 'multiply':
-                text = operationArea.textContent;
-                values = text.split(' x ');
-                first = Number(values[0]);
-                second = Number(values[1]);
-                outcome = multiply(first, second);
-                resultArea.textContent = outcome;
-                break
-            case 'divide':
-                text = operationArea.textContent;
-                values = text.split(' ÷ ');
-                first = Number(values[0]);
-                second = Number(values[1]);
-                outcome = divide(first, second);
-                resultArea.textContent = outcome;
-                break
+        let start;
+        let finish;
+        let operation = operationArea.textContent;
+        let operationArray = operation.split('');
+        for(let i = 0; i < operationArray.length; i++) {
+            if(operationArray[i] == 'x' || operationArray[i] == '÷') {
+                for(let j = i - 2; j > -1; j--) {
+                    if(operationArray[j] == ' ') {
+                        first = Number(operationArray.slice(j + 1, i - 1).join(''));
+                        start = j + 1;
+                        break
+                    }
+                    if(j == 0) {
+                        first = Number(operationArray.slice(j, i - 1).join(''));
+                        start = 0;
+                        break
+                    }
+                }
+                for(j = i + 2; j < operationArray.length; j++) {
+                    if(operationArray[j] == ' ') {
+                        second = Number(operationArray.slice(i + 2, j).join(''));
+                        finish = j - 1;
+                        break
+                    }
+                    if(j == operationArray.length - 1) {
+                        second = Number(operationArray.slice(i + 2).join(''));
+                        finish = j;
+                        break
+                    }
+                }
+                operator = operationArray[i];
+                outcome = operate(operator, first, second);
+                operationArray.splice(start, finish - start + 1, outcome);
+                i = 0;
+            }
+            if(i == operationArray.length - 1) {
+                for(let k = 0; k < operationArray.length; k++) {
+                    if(operationArray[k] == '+' || operationArray[k] == '-') {
+                        for(let l = k - 2; l > -1; l--) {
+                            if(operationArray[l] == ' ') {
+                                first = Number(operationArray.slice(l + 1, k - 1).join(''));
+                                start = l + 1;
+                                break;
+                            }
+                            if(l == 0) {
+                                first = Number(operationArray.slice(l, k - 1).join(''));
+                                start = 0;
+                                break
+                            }
+                        }
+                        for(l = k + 2; l < operationArray.length; l++) {
+                            if(operationArray[l] == ' ') {
+                                second = Number(operationArray.slice(k + 2, l).join(''));
+                                finish = l - 1;
+                                break
+                            }
+                            if(l == operationArray.length - 1) {
+                                second = Number(operationArray.slice(k + 2).join(''));
+                                finish = l;
+                                break
+                            }  
+                        }
+                        operator = operationArray[k];
+                        outcome = operate(operator, first, second);
+                        operationArray.splice(start, finish - start + 1, outcome);
+                        k = 0;
+                    }
+                }
+            }
         }
-    })*/
+        let result = operationArray.join('');
 
-    let first;
-    let second;
-    let operator;
-    let outcome;
-    let start;
-    let finish;
-    let operation = operationArea.textContent;
-    let operationArray = operation.split('');
-    console.log(operationArray);
-    for(let i = 0; i < operationArray.length; i++) {
-        if(operationArray[i] == 'x' || operationArray[i] == '÷') {
-            for(let k = i - 2; k > -1; k--) {
-                if(operationArray[k] == ' ') {
-                    first = Number(operationArray.slice(k + 1, i - 1).join(''));
-                    start = k + 1;
-                    break
-                }
-                if(k == 0) {
-                    first = Number(operationArray.slice(k, i - 1).join(''));
-                    start = 0;
-                    break
-                }
-            }
-            for(k = i + 2; k < operationArray.length; k++) {
-                if(operationArray == ' ') {
-                    second = Number(operationArray.slice(i + 2, k).join(''));
-                    finish = k - 1;
-                    break
-                }
-                if(k == operationArray.length - 1) {
-                    second = Number(operationArray.slice(i + 2).join(''));
-                    finish = k;
-                    break
-                }
-            }
-            operator = operationArray[i];
-            outcome = operate(operator, first, second);
-            operationArray.splice(start, finish - start + 1, outcome);
-            console.log(operationArray)
-        }
-    }
-    });
+        resultArea.textContent = result;
+        });
 </script>
 </body>
 
