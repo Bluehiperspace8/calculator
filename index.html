@@ -21,22 +21,22 @@
             <button id='reset' class='control'>AC</button>
             <button id='backspace' class='control'> DEL </button>
             <button id='sign' class='control'> + / - </button>
-            <button id='divide' class='literal operator'> ÷ </button>
+            <button id='divide' class='operator'> ÷ </button>
             <button class='literal number'>7</button>
             <button class='literal number'>8</button>
             <button class='literal number'>9</button>
-            <button id='times' class='literal operator'> x </button>
+            <button id='times' class='operator'> x </button>
             <button class='literal number'>4</button>
             <button class='literal number'>5</button>
             <button class='literal number'>6</button>
-            <button id='minus' class='literal operator'> - </button>
+            <button id='minus' class='operator'> - </button>
             <button class='literal number'>1</button>
             <button class='literal number'>2</button>
             <button class='literal number'>3</button>
-            <button id='plus' class='literal operator'> + </button>
+            <button id='plus' class='operator'> + </button>
             <button class='literal number double'>0</button>
             <button class='literal number'>.</button>
-            <button id='equal' class='operator'> = </button>
+            <button id='equal' class='semi-operator'> = </button>
         </div>
     </div>
 <script>
@@ -70,6 +70,17 @@
     const numberButtons = document.getElementsByClassName('literal');
     for(let i = 0; i < numberButtons.length; i++) {
         numberButtons[i].addEventListener('click', (e) => {
+            if(previousAnswer) {
+                operationArea.textContent = undefined;
+                previousAnswer = undefined;
+            }
+            operationArea.textContent += e.target.textContent;
+        })
+    }
+
+    const operatorButtons = document.getElementsByClassName('operator');
+    for(let i = 0; i < operatorButtons.length; i++) {
+        operatorButtons[i].addEventListener('click', (e) => {
             operationArea.textContent += e.target.textContent;
         })
     }
@@ -77,8 +88,36 @@
     const plusButton = document.getElementById('plus');
     plusButton.addEventListener('click', () => {
         if(previousAnswer) {
-            operationArea.textContent = previousAnswer;
+            operationArea.textContent = previousAnswer + plusButton.textContent;
             resultArea.textContent = undefined;
+            previousAnswer = undefined;
+        }
+    })
+
+    const minusButton = document.getElementById('minus');
+    minusButton.addEventListener('click', () => {
+        if(previousAnswer) {
+            operationArea.textContent = previousAnswer + minusButton.textContent;
+            resultArea.textContent = undefined;
+            previousAnswer = undefined;
+        }
+    })
+
+    const timesButton = document.getElementById('times');
+    timesButton.addEventListener('click', () => {
+        if(previousAnswer) {
+            operationArea.textContent = previousAnswer + timesButton.textContent;
+            resultArea.textContent = undefined;
+            previousAnswer = undefined;
+        }
+    })
+
+    const divisionButton = document.getElementById('divide');
+    divisionButton.addEventListener('click', () => {
+        if(previousAnswer) {
+            operationArea.textContent = previousAnswer + divisionButton.textContent;
+            resultArea.textContent = undefined;
+            previousAnswer = undefined;
         }
     })
 
@@ -92,7 +131,13 @@
     const backButton = document.getElementById('backspace');
     backButton.addEventListener('click', () => {
         let text = operationArea.textContent;
+        if(resultArea.textContent == 'Math Error' || resultArea.textContent == 'Syntax Error') {
+            return;
+        }
         text = text.substring(0, text.length - 1);
+        /*if(text[text.length - 1] == ' ') {
+            text = text.substring(0, text.length - 1);
+        }*/
         operationArea.textContent = text;
     })
 
@@ -106,6 +151,11 @@
         let finish;
         let operation = operationArea.textContent;
         let operationArray = operation.split('');
+        for(let m = 0; m < operationArray.length - 3; m++) {
+            if(operationArray[m] == '-' && operationArray[m + 3] == '-') {
+                operationArray.splice(m, 4, '+');
+            }
+        }
         for(let i = 0; i < operationArray.length; i++) {
             if(operationArray[i] == 'x' || operationArray[i] == '÷') {
                 for(let j = i - 2; j > -1; j--) {

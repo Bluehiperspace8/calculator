@@ -78,6 +78,10 @@ button {
     color: black
 }
 
+.control:active {
+    background-color: #969493;
+}
+
 .number:active {
     background-color: black;
 }
@@ -85,4 +89,17 @@ button {
 .operator {
     background-color: #ff9400;
     color: #dcdcdc;
+}
+
+.operator:active {
+    background-color: #cc8500;
+}
+
+.semi-operator {
+    background-color: #ff9400;
+    color: #dcdcdc;
+}
+
+.semi-operator:active {
+    background-color: #cc8500;
 }
