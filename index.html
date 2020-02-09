@@ -20,7 +20,7 @@
         <div class='calculator-buttons'>
             <button id='reset' class='control'>AC</button>
             <button id='backspace' class='control'> DEL </button>
-            <button id='sign' class='control'> + / - </button>
+            <button id='sign' class='control'> (-) </button>
             <button id='divide' class='operator'> ÷ </button>
             <button class='literal number'>7</button>
             <button class='literal number'>8</button>
@@ -35,7 +35,7 @@
             <button class='literal number'>3</button>
             <button id='plus' class='operator'> + </button>
             <button class='literal number double'>0</button>
-            <button class='literal number'>.</button>
+            <button id='decimal' class='number'>.</button>
             <button id='equal' class='semi-operator'> = </button>
         </div>
     </div>
@@ -67,6 +67,49 @@
     const operationArea = document.getElementById('operations');
     const resultArea = document.getElementById('result');
 
+    window.addEventListener('keydown', (e) => {
+        if(e.key == '0' || e.key == '1' || e.key == '2' || e.key == '3' || e.key == '4' || e.key == '5' 
+        || e.key == '6' || e.key == '7' || e.key == '8' || e.key == '9') {
+            if(previousAnswer) {
+                operationArea.textContent = undefined;
+                previousAnswer = undefined;
+            }
+            operationArea.textContent += e.key
+        }
+        if(e.key == '.') {
+            addDecimal();
+        }
+        if(e.key == '+' || e.key == '-' || e.key == 'x') {
+            if(previousAnswer) {
+                operationArea.textContent = previousAnswer + ' ' + e.key + ' ';
+                resultArea.textContent = undefined;
+                previousAnswer = undefined;
+                return;
+            }
+            operationArea.textContent += ' ' + e.key + ' '
+        }
+        if(e.key == '/') {
+            if(previousAnswer) {
+                operationArea.textContent = previousAnswer + ' ÷ ';
+                resultArea.textContent = undefined;
+                previousAnswer = undefined;
+                return;
+            }
+            operationArea.textContent += ' ÷ '   
+        }
+        if(e.key == 'Backspace') {
+            backspace();
+        }
+        if(e.key == 'Escape') {
+            operationArea.textContent = undefined;
+            resultArea.textContent = undefined;
+            previousAnswer = undefined;
+        }
+        if(e.key == '=') {
+            doMagic();
+        }
+    })
+
     const numberButtons = document.getElementsByClassName('literal');
     for(let i = 0; i < numberButtons.length; i++) {
         numberButtons[i].addEventListener('click', (e) => {
@@ -76,6 +119,40 @@
             }
             operationArea.textContent += e.target.textContent;
         })
+    }
+
+    function countOperators() {
+        let checker = operationArea.textContent.split('');
+        let operators = 0;
+        for(let i = 0; i < checker.length; i++) {
+            if(checker[i] == '+' || checker[i] == '-' || checker[i] == 'x' || checker[i] == '÷') {
+                operators += 1;
+            }
+        }
+        return operators;
+    }
+
+    const decimalButton = document.getElementById('decimal')
+    decimalButton.addEventListener('click', addDecimal)
+
+    function addDecimal() {
+        let decimalsAllowed = countOperators() + 1;
+        let operation = operationArea.textContent.split('');
+        let decimals = 0;
+        for(let i = 0; i < operation.length; i++) {
+            if(operation[i] == '.') {
+                decimals += 1;
+            }
+        }
+        if(decimals < decimalsAllowed) {
+            if(previousAnswer) {
+                operationArea.textContent = undefined;
+                previousAnswer = undefined;
+            }
+            operationArea.textContent += '.';
+        } else {
+            return;
+        }
     }
 
     const operatorButtons = document.getElementsByClassName('operator');
@@ -129,20 +206,26 @@
     })
 
     const backButton = document.getElementById('backspace');
-    backButton.addEventListener('click', () => {
+    backButton.addEventListener('click', backspace)
+
+    function backspace() {
         let text = operationArea.textContent;
         if(resultArea.textContent == 'Math Error' || resultArea.textContent == 'Syntax Error') {
             return;
         }
         text = text.substring(0, text.length - 1);
-        /*if(text[text.length - 1] == ' ') {
-            text = text.substring(0, text.length - 1);
-        }*/
         operationArea.textContent = text;
+    }
+
+    const negativeButton = document.getElementById('sign');
+    negativeButton.addEventListener('click', () => {
+        operationArea.textContent += '-';
     })
 
     const equalButton = document.getElementById('equal');
-    equalButton.addEventListener('click', () => {
+    equalButton.addEventListener('click', doMagic)
+
+    function doMagic() {
         let first;
         let second;
         let operator;
@@ -151,9 +234,16 @@
         let finish;
         let operation = operationArea.textContent;
         let operationArray = operation.split('');
+        if(operationArray[0] == '-') {
+            operationArray.shift();
+            operationArray[0] = '-' + operationArray[0];
+        }
         for(let m = 0; m < operationArray.length - 3; m++) {
             if(operationArray[m] == '-' && operationArray[m + 3] == '-') {
                 operationArray.splice(m, 4, '+');
+            }
+            if(operationArray[m] == '-' && operationArray[m + 3] == '+') {
+                operationArray.splice(m, 4, '-');
             }
         }
         for(let i = 0; i < operationArray.length; i++) {
@@ -238,7 +328,7 @@
         let result = operationArray.join('');
         previousAnswer = result;
         resultArea.textContent = result;
-        });
+        };
 </script>
 </body>
 
